@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: picpay_controle
+    ports:
+      - "3306:3306"
+    volumes:
+      - picpay_volume:/var/lib/mysql
+
+volumes:
+  picpay_volume:
+    driver: local
