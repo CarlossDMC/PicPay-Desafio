@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "tb_users")
+@Entity(name = "tb_usuario")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -19,7 +19,7 @@ public class Usuario {
     private String nome;
 
     @Column(unique = true)
-    private String cpf;
+    private String cpf_cnpj;
 
     @Column(unique = true)
     private String email;
