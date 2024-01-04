@@ -13,6 +13,7 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Long id;
 
     private String nome;
@@ -25,5 +26,9 @@ public class Usuario {
 
     private String senha;
 
+    @Enumerated(EnumType.STRING)
+    private TipoUsuario tipo_usuario;
 
 }
+
+
