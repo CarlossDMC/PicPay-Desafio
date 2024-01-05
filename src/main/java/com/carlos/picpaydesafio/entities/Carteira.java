@@ -1,7 +1,14 @@
 package com.carlos.picpaydesafio.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity(name = "tb_carteira")
 public class Carteira {
 
