@@ -1,7 +1,6 @@
 package com.carlos.picpaydesafio.controllers;
 
 import com.carlos.picpaydesafio.dto.UsuarioCriacaoDTO;
-import com.carlos.picpaydesafio.entities.Usuario;
 import com.carlos.picpaydesafio.services.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,17 +20,8 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody UsuarioCriacaoDTO usuarioDTO){
         Map<String, Object> retorno = new HashMap<>();
-        try{
             retorno = usuarioService.criarNovoUsuario(usuarioDTO.getUsuario(), usuarioDTO.getSaldo_inicial());
             return ResponseEntity.status(HttpStatus.CREATED).body(retorno);
-        }
-        catch(Exception ex){
-            retorno.put("Erro", ex.getMessage());
-            if (ex.getMessage() == "Dados do usuário invalido."){
-                return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(retorno);
-            }
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(retorno);
-        }
     }
 }
 

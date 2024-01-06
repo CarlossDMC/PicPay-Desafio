@@ -2,6 +2,7 @@ package com.carlos.picpaydesafio.services;
 import com.carlos.picpaydesafio.entities.Carteira;
 import com.carlos.picpaydesafio.entities.TipoUsuario;
 import com.carlos.picpaydesafio.entities.Usuario;
+import com.carlos.picpaydesafio.exceptions.DadosInvalidosException;
 import com.carlos.picpaydesafio.exceptions.TipoInvalidoException;
 import com.carlos.picpaydesafio.repositories.CarteiraRepository;
 import com.carlos.picpaydesafio.repositories.UserRepository;
@@ -24,7 +25,7 @@ public class UsuarioService {
 
     public Map<String, Object> criarNovoUsuario(Usuario usuario, Double saldoInicial){
         if (!validarUsuario(usuario)){
-            throw new RuntimeException("Dados do usuário invalido.");
+            throw new DadosInvalidosException("Dados do usuário invalido.");
         }
 
         Carteira carteira = new Carteira();
