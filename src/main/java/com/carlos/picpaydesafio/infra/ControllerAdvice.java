@@ -1,6 +1,7 @@
 package com.carlos.picpaydesafio.infra;
 import com.carlos.picpaydesafio.exceptions.DadosInvalidosException;
 import com.carlos.picpaydesafio.exceptions.TipoInvalidoException;
+import com.carlos.picpaydesafio.exceptions.UsuarioNaoEncontradoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,5 +17,10 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(TipoInvalidoException.class)
     private ResponseEntity<String> tipoInvalidoHandler(TipoInvalidoException exception){
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(UsuarioNaoEncontradoException.class)
+    private ResponseEntity<String> usuarioNaoEncontradoException(TipoInvalidoException exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 }
