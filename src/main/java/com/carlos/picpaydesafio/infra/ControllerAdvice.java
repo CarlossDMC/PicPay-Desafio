@@ -1,7 +1,5 @@
 package com.carlos.picpaydesafio.infra;
-import com.carlos.picpaydesafio.exceptions.DadosInvalidosException;
-import com.carlos.picpaydesafio.exceptions.TipoInvalidoException;
-import com.carlos.picpaydesafio.exceptions.UsuarioNaoEncontradoException;
+import com.carlos.picpaydesafio.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +18,22 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(UsuarioNaoEncontradoException.class)
-    private ResponseEntity<String> usuarioNaoEncontradoException(TipoInvalidoException exception){
+    private ResponseEntity<String> usuarioNaoEncontradoException(UsuarioNaoEncontradoException exception){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(SaldoInsuficienteException.class)
+    private ResponseEntity<String> saldoInsuficienteException(SaldoInsuficienteException exception){
+        return ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(OperacaoNaoPermitidaException.class)
+    private ResponseEntity<String> operacaoNaoPermitidaException(OperacaoNaoPermitidaException exception){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(EnviarNotificaoException.class)
+    private ResponseEntity<String> enviarNotificaoException(EnviarNotificaoException exception){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exception.getMessage());
     }
 }
