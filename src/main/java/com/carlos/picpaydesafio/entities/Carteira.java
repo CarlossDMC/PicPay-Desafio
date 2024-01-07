@@ -18,5 +18,5 @@ public class Carteira {
     private long id;
 
     @Column
-    private Double saldo;
+    private Double saldo = 0.0;
 }
