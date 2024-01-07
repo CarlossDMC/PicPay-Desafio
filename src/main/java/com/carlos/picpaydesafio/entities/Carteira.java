@@ -19,10 +19,4 @@ public class Carteira {
 
     @Column
     private Double saldo;
-
-
-    @JoinColumn(name = "id_usuario")
-    @OneToOne
-    private Usuario usuario;
-
 }
