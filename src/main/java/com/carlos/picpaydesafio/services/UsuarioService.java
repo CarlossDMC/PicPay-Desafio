@@ -4,8 +4,10 @@ import com.carlos.picpaydesafio.entities.TipoUsuario;
 import com.carlos.picpaydesafio.entities.Usuario;
 import com.carlos.picpaydesafio.exceptions.DadosInvalidosException;
 import com.carlos.picpaydesafio.exceptions.TipoInvalidoException;
+import com.carlos.picpaydesafio.exceptions.UsuarioNaoEncontradoException;
 import com.carlos.picpaydesafio.repositories.CarteiraRepository;
 import com.carlos.picpaydesafio.repositories.UserRepository;
+import com.carlos.picpaydesafio.infra.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,24 +23,21 @@ public class UsuarioService {
     private UserRepository userRepository;
 
     @Autowired
+    private Utils utils;
+
+    @Autowired
     private CarteiraRepository carteiraRepository;
 
-    public Map<String, Object> criarNovoUsuario(Usuario usuario, Double saldoInicial){
+    public Map<String, Object> criarNovoUsuario(Usuario usuario){
         if (!validarUsuario(usuario)){
             throw new DadosInvalidosException("Dados do usuário invalido.");
         }
-
-        Carteira carteira = new Carteira();
-        carteira.setUsuario(usuario);
-        carteira.setSaldo(saldoInicial);
+        carteiraRepository.save(usuario.getCarteira());
         userRepository.save(usuario);
-        carteiraRepository.save(carteira);
+
 
         Map<String, Object> retorno = new HashMap<>();
         retorno.put("Usuario", usuario);
-        retorno.put("Id Carteira", carteira.getId());
-        retorno.put("Saldo", carteira.getSaldo());
-
         return retorno;
     }
 
@@ -54,21 +53,29 @@ public class UsuarioService {
 
     public boolean enviarDinhero(Double valor, Long id_pagador, Long id_recebedor){
         Usuario pagador = userRepository.findUsuarioById(id_pagador);
+        Usuario recebedor = userRepository.findUsuarioById(id_recebedor);
+        if (pagador == null){
+            throw new UsuarioNaoEncontradoException("Usuario com o id " + pagador.getId() + " não encontrado.");
+        }
+        if (recebedor == null){
+            throw new UsuarioNaoEncontradoException("Usuario com o id " + recebedor.getId() + " não encontrado.");
+        }
         if (pagador.getTipo_usuario() == TipoUsuario.LOJISTA){
            throw new TipoInvalidoException("O tipo de usuário " +  pagador.getTipo_usuario().toString() + " não é autorizado a fazer essa transação.");
         }
-        return false;
+
+
+
+        return true;
     }
 
     private boolean validarUsuario(Usuario usuario){
         return usuario != null
-                && validarString(usuario.getNome())
-                && validarString(usuario.getCpf_cnpj())
-                && validarString(usuario.getEmail())
-                && validarString(usuario.getSenha());
+                && utils.validarString(usuario.getNome())
+                && utils.validarString(usuario.getCpf_cnpj())
+                && utils.validarString(usuario.getEmail())
+                && utils.validarString(usuario.getSenha());
     }
 
-    private boolean validarString(String value) {
-        return value != null && !value.isEmpty();
-    }
+
 }

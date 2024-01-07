@@ -9,6 +9,4 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class UsuarioCriacaoDTO {
-    private Usuario usuario;
-    private Double saldo_inicial;
-}
+    private Usuario usuario;}

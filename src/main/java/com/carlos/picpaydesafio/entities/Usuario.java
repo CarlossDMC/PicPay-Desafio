@@ -26,6 +26,10 @@ public class Usuario {
 
     private String senha;
 
+    @JoinColumn(name = "id_carteira")
+    @OneToOne(cascade = CascadeType.ALL)
+    private Carteira carteira;
+
     @Enumerated(EnumType.STRING)
     private TipoUsuario tipo_usuario;
 

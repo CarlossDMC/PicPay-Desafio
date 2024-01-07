@@ -19,8 +19,8 @@ public class UserController {
 
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> create(@RequestBody UsuarioCriacaoDTO usuarioDTO){
-        Map<String, Object> retorno = new HashMap<>();
-            retorno = usuarioService.criarNovoUsuario(usuarioDTO.getUsuario(), usuarioDTO.getSaldo_inicial());
+            Map<String, Object> retorno = new HashMap<>();
+            retorno = usuarioService.criarNovoUsuario(usuarioDTO.getUsuario());
             return ResponseEntity.status(HttpStatus.CREATED).body(retorno);
     }
 }
